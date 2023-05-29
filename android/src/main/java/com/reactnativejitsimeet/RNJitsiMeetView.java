@@ -1,85 +1,66 @@
 package com.reactnativejitsimeet;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.FrameLayout;
+
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
+import androidx.fragment.app.FragmentActivity;
 
-import com.facebook.react.bridge.ReadableMap;
 
+import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.modules.core.PermissionListener;
+import com.facebook.react.uimanager.ThemedReactContext;
+
+import org.jitsi.meet.sdk.JitsiMeetActivityDelegate;
+import org.jitsi.meet.sdk.JitsiMeetActivityInterface;
+import org.jitsi.meet.sdk.JitsiMeetConferenceOptions;
 import org.jitsi.meet.sdk.JitsiMeetView;
-import org.jitsi.meet.sdk.ReactActivityLifecycleCallbacks;
 
-import java.lang.reflect.Method;
-import java.util.Map;
+public class RNJitsiMeetView extends FrameLayout
+implements JitsiMeetActivityInterface {
+    private JitsiMeetView jitsiMeetView;
 
-
-
-public class RNJitsiMeetView extends FragmentActivity 
-        implements JitsiMeetActivityInterface {
-    private JitsiMeetView view;
-     @Override
-    protected void onActivityResult(
-            int requestCode,
-            int resultCode,
-            Intent data) {
-        JitsiMeetActivityDelegate.onActivityResult(
-                this, requestCode, resultCode, data);
+    public RNJitsiMeetView(Context context) {
+        super(context);
+        init();
     }
 
-    @Override
-    public void onBackPressed() {
-        JitsiMeetActivityDelegate.onBackPressed();
-    }
+    private void init() {
+        jitsiMeetView = new JitsiMeetView(getContext());
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        view = new JitsiMeetView(this);
         JitsiMeetConferenceOptions options = new JitsiMeetConferenceOptions.Builder()
-            .setRoom("https://meet.jit.si/test123")
-            .build();
-        view.join(options);
+                .setRoom("https://meet.jit.si/test123")
+                .build();
+        jitsiMeetView.join(options);
 
-        setContentView(view);
+        addView(jitsiMeetView);
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        view.dispose();
-        view = null;
-
-        JitsiMeetActivityDelegate.onHostDestroy(this);
+    public int checkPermission(String s, int i, int i1) {
+        return 0;
     }
 
     @Override
-    public void onNewIntent(Intent intent) {
-        JitsiMeetActivityDelegate.onNewIntent(intent);
+    public int checkSelfPermission(String s) {
+        return 0;
     }
 
     @Override
-    public void onRequestPermissionsResult(
-            final int requestCode,
-            final String[] permissions,
-            final int[] grantResults) {
-        JitsiMeetActivityDelegate.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    public boolean shouldShowRequestPermissionRationale(String s) {
+        return false;
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    public void requestPermissions(String[] strings, int i, PermissionListener permissionListener) {
 
-        JitsiMeetActivityDelegate.onHostResume(this);
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
-        JitsiMeetActivityDelegate.onHostPause(this);
     }
 }
