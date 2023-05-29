@@ -1,12 +1,27 @@
 package com.reactnativejitsimeet;
 
-import androidx.annotation.NonNull;
+import android.app.Activity;
+import android.content.pm.PackageManager;
+
+import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.modules.core.PermissionListener;
 import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
+import com.facebook.react.module.annotations.ReactModule;
 
-public class RNJitsiMeetViewManager extends SimpleViewManager<RNJitsiMeetView> {
+import androidx.annotation.NonNull;
 
+import org.jitsi.meet.sdk.JitsiMeetActivityInterface;
+import org.jitsi.meet.sdk.JitsiMeetView;
+
+@ReactModule(name = RNJitsiMeetViewManager.REACT_CLASS)
+public class RNJitsiMeetViewManager extends SimpleViewManager<JitsiMeetView>  {
     public static final String REACT_CLASS = "RNJitsiMeetView";
+    private ReactApplicationContext mReactContext;
+
+    public RNJitsiMeetViewManager(ReactApplicationContext reactContext) {
+        mReactContext = reactContext;
+    }
 
     @Override
     public String getName() {
@@ -15,7 +30,7 @@ public class RNJitsiMeetViewManager extends SimpleViewManager<RNJitsiMeetView> {
 
     @NonNull
     @Override
-    protected RNJitsiMeetView createViewInstance(@NonNull ThemedReactContext reactContext) {
-        return new RNJitsiMeetView(reactContext);
+    protected JitsiMeetView createViewInstance(@NonNull ThemedReactContext reactContext) {
+        return new JitsiMeetView(reactContext);
     }
 }
