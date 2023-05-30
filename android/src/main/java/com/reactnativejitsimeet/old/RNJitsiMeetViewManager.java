@@ -13,7 +13,6 @@ import androidx.annotation.NonNull;
 
 import org.jitsi.meet.sdk.JitsiMeetActivityInterface;
 import org.jitsi.meet.sdk.JitsiMeetView;
-
 @ReactModule(name = RNJitsiMeetViewManager.REACT_CLASS)
 public class RNJitsiMeetViewManager extends SimpleViewManager<JitsiMeetView>  {
     public static final String REACT_CLASS = "RNJitsiMeetView";
@@ -31,6 +30,6 @@ public class RNJitsiMeetViewManager extends SimpleViewManager<JitsiMeetView>  {
     @NonNull
     @Override
     protected JitsiMeetView createViewInstance(@NonNull ThemedReactContext reactContext) {
-        return new JitsiMeetView(reactContext);
+        return new MainActivity(reactContext);
     }
 }
